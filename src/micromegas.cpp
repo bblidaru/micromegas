@@ -41,9 +41,9 @@ int main()
 	// Print some information about the cell dimensions.
 	fm->PrintRange();
 
-	//ViewField* fieldView = new ViewField();
-	//fieldView->SetComponent(fm);
-	//fieldView->PlotProfile(0.,0.,0.02,0.,0.,-0.02);
+	ViewField* fieldView = new ViewField();
+	fieldView->SetComponent(fm);
+	fieldView->PlotProfile(0.,0.,0.02,0.,0.,-0.02);
 	
 	MediumMagboltz* gas = new MediumMagboltz();
 	gas->SetComposition("ar", 80., "co2", 20.);
