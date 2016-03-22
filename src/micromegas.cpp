@@ -66,7 +66,7 @@ int main()
 	Sensor* sensor = new Sensor();
 	sensor->AddComponent(fm);
 	
-	sensor->SetArea();
+	sensor->SetArea(-5,-5,-5,5,1,5);
 	
 	AvalancheMicroscopic* aval = new AvalancheMicroscopic();
 	aval->SetSensor(sensor);
@@ -74,7 +74,7 @@ int main()
 	// Set the initial position [cm] and starting time [ns].
 	double x0 = 0., y0 = 0., z0 = 0.02, t0 = 0.;
 	// Set the initial energy [eV].
-	double e0 = 25;
+	double e0 = 250;
 	// Set the initial direction (x, y, z).
 	// In case of a null vector, the direction is randomized.
 	double dx0 = 0., dy0 = 0., dz0 = 0.;
