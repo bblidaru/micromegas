@@ -45,17 +45,47 @@ int main(int argc, char * argv[])
 
 	
 	
+		 TCanvas * c = new TCanvas("c", "c", 10, 10, 1400, 700);
+		  c->Divide(2,1);
+		  
+		ViewField* fieldViewTop = new ViewField();
+		fieldViewTop->SetComponent(fm);
+		
+		fieldViewTop->SetPlane(0., -1., 0., 0., 0., 0.);
+		fieldViewTop->SetArea(-5,-5,5,5);
+		fieldViewTop->SetVoltageRange(0, 1200);
+		fieldViewTop->SetCanvas((TCanvas*)c->cd(1));
+		fieldViewTop->PlotContour();
+		
+		
+		ViewField* fieldViewSide = new ViewField();
+		fieldViewSide->SetComponent(fm);
+		fieldViewSide->SetPlane(0., 0., -1., 0., 0., 0.);
+		fieldViewSide->SetArea(-5,-5,5,5);
+		fieldViewSide->SetVoltageRange(0, 1200);
+		fieldViewSide->SetCanvas((TCanvas*)c->cd(2));
+		//fieldViewSide->PlotProfile(0.,-5,0.,0.,2,0.);
+		fieldViewSide->PlotContour();
+    
+   
+    
+    
+      
+    
+    
+    
+    
+    
+    
+    //TCanvas* cF = new TCanvas();
+    //fieldView->SetCanvas(cF);
+    //fieldView->PlotContour();
 	
-	ViewField* fieldView = new ViewField();
-    fieldView->SetComponent(fm);
-    fieldView->SetPlane(0., -1., 0., 0., 0., 0.);
-    fieldView->SetArea(-5,-5,5,5);
-    fieldView->SetVoltageRange(0, 1200);
-    TCanvas* cF = new TCanvas();
-    fieldView->SetCanvas(cF);
-    fieldView->PlotContour();
 	
 	
+	
+	 //TCanvas* cZ = new TCanvas();
+    //fieldView->SetCanvas(cZ);
 	//fieldView->PlotProfile(0.,-5,0.,0.,2,0.);
 	
 	
