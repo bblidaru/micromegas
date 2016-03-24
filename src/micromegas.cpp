@@ -30,9 +30,11 @@
 using namespace std;
 using namespace Garfield;
 
-int main()
+int main(int argc, char * argv[])
 {
-
+	TApplication app("app", &argc, argv);
+	plottingEngine.SetDefaultStyle();
+	
 	ComponentAnsys123* fm = new ComponentAnsys123();
 	fm->Initialise("ansys/ELIST.lis", "ansys/NLIST.lis", "ansys/MPLIST.lis", "ansys/PRNSOL.lis", "mm");
 	// Set the periodicities.
@@ -41,9 +43,22 @@ int main()
 	// Print some information about the cell dimensions.
 	fm->PrintRange();
 
+	
+	
+	
 	ViewField* fieldView = new ViewField();
-	fieldView->SetComponent(fm);
-	fieldView->PlotProfile(0.,0.,0.02,0.,0.,-0.02);
+    fieldView->SetComponent(fm);
+    fieldView->SetPlane(0., -1., 0., 0., 0., 0.);
+    fieldView->SetArea(-5,-5,5,5);
+    fieldView->SetVoltageRange(0, 1200);
+    TCanvas* cF = new TCanvas();
+    fieldView->SetCanvas(cF);
+    fieldView->PlotContour();
+	
+	
+	//fieldView->PlotProfile(0.,-5,0.,0.,2,0.);
+	
+	
 	
 	MediumMagboltz* gas = new MediumMagboltz();
 	gas->SetComposition("ar", 80., "co2", 20.);
@@ -111,4 +126,5 @@ int main()
 
 	myfile.close();
 	
+	app.Run(kTRUE); 
 }
