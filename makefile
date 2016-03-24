@@ -17,6 +17,12 @@ LDFLAGS = `root-config --glibs` -lGeom -lgfortran -lm
 LDFLAGS += -L$(LIBDIR) -lGarfield
 LDFLAGS += -g
 
+all: clean micromegas
+
+clean:
+	rm -f micromegas.o
+	rm -f micromegas
+
 micromegas: src/micromegas.cpp
 	$(CXX) $(CFLAGS) src/micromegas.cpp
 	$(CXX) -o micromegas micromegas.o $(LDFLAGS)
