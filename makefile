@@ -11,13 +11,13 @@ CFLAGS = -Wall -Wextra -Wno-long-long \
         -I$(INCDIR) -I$(HEEDDIR)
 
 # Debug flags
-#CFLAGS += -g
+CFLAGS += -g
 
 LDFLAGS = `root-config --glibs` -lGeom -lgfortran -lm
 LDFLAGS += -L$(LIBDIR) -lGarfield
-#LDFLAGS += -g
+LDFLAGS += -g
 
-edep: edep.C
-        $(CXX) $(CFLAGS) edep.C
-        $(CXX) -o edep edep.o $(LDFLAGS)
-        rm edep.o
+micromegas: src/micromegas.cpp
+	$(CXX) $(CFLAGS) src/micromegas.cpp
+	$(CXX) -o micromegas micromegas.o $(LDFLAGS)
+	rm micromegas.o
