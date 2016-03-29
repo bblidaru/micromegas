@@ -36,40 +36,49 @@ int main(int argc, char * argv[])
 	plottingEngine.SetDefaultStyle();
 	
 	ComponentAnsys123* fm = new ComponentAnsys123();
-	fm->Initialise("ansys/ELIST.lis", "ansys/NLIST.lis", "ansys/MPLIST.lis", "ansys/PRNSOL.lis", "mm");
+	fm->Initialise("ansys_nou/ELIST.lis", "ansys_nou/NLIST.lis", "ansys_nou/MPLIST.lis", "ansys_nou/PRNSOL.lis", "mm");
 	// Set the periodicities.
 	fm->EnableMirrorPeriodicityX();
-	fm->EnableMirrorPeriodicityY();
+	fm->EnableMirrorPeriodicityZ();
 	// Print some information about the cell dimensions.
 	fm->PrintRange();
 
 	
 	
-		 TCanvas * c = new TCanvas("c", "c", 10, 10, 1400, 700);
-		  c->Divide(2,1);
+		TCanvas * c = new TCanvas("c", "c", 10, 10, 1400, 700);
+		c->Divide(2,1);
 		  
 		ViewField* fieldViewTop = new ViewField();
 		fieldViewTop->SetComponent(fm);
 		
-		fieldViewTop->SetPlane(0., -1., 0., 0., 0., 0.);
-		fieldViewTop->SetArea(-5,-5,5,5);
-		fieldViewTop->SetVoltageRange(0, 1200);
+		fieldViewTop->SetPlane(0., 0., 1., 0., 2.1, 0.);
+		fieldViewTop->SetArea(-1.5,-2,1.5, 8);
+		fieldViewTop->SetVoltageRange(-500, 200);
 		fieldViewTop->SetCanvas((TCanvas*)c->cd(1));
 		fieldViewTop->PlotContour();
 		
 		
 		ViewField* fieldViewSide = new ViewField();
 		fieldViewSide->SetComponent(fm);
-		fieldViewSide->SetPlane(0., 0., -1., 0., 0., 0.);
-		fieldViewSide->SetArea(-5,-5,5,5);
-		fieldViewSide->SetVoltageRange(0, 1200);
+		fieldViewSide->SetPlane(0., -1., 0., 0., 2.1, 0.);
+		fieldViewSide->SetArea(-1.5,-1.5,1.5,1.5);
+		fieldViewSide->SetVoltageRange(-0.1, 0.1);
 		fieldViewSide->SetCanvas((TCanvas*)c->cd(2));
 		//fieldViewSide->PlotProfile(0.,-5,0.,0.,2,0.);
 		fieldViewSide->PlotContour();
+		
+		
     
-   
-    
-    
+		// This canvas will be used to display the drift lines and the field
+		TCanvas * c2 = new TCanvas("c2", "c2", 10, 10, 1000, 700);
+		c2->Divide(2,1);
+		 //Construct object to visualise drift lines
+		ViewDrift* viewdrift = new ViewDrift();
+	    viewdrift->SetArea(-1.5, 0., -1.5, 1.5, 8.0, 1.5 );
+	    viewdrift->SetClusterMarkerSize(0.1);
+	    viewdrift->SetCollisionMarkerSize(0.5);
+	    viewdrift->SetCanvas((TCanvas*)c2->cd(1));
+	  
       
     
     
@@ -111,23 +120,32 @@ int main(int argc, char * argv[])
 	Sensor* sensor = new Sensor();
 	sensor->AddComponent(fm);
 	
-	sensor->SetArea(-5,-5,-5,5,1,5);
+	sensor->SetArea(-1.5,0.,-1.5,1.5,7.2,1.5);
 	
 	AvalancheMicroscopic* aval = new AvalancheMicroscopic();
 	aval->SetSensor(sensor);
 	
 	// Set the initial position [cm] and starting time [ns].
-	double x0 = 0., y0 = 0., z0 = 0.02, t0 = 0.;
+	double x0 = 0., y0 = 5, z0 = 0., t0 = 0.;
 	// Set the initial energy [eV].
 	double e0 = 250;
 	// Set the initial direction (x, y, z).
 	// In case of a null vector, the direction is randomized.
 	double dx0 = 0., dy0 = 0., dz0 = 0.;
 	//aval->EnableDebugging();
-	aval->EnableAvalancheSizeLimit(1000);
+	aval->EnableAvalancheSizeLimit(10000);
 	//int SetArea(double x0, double y0, double z0, double dx0, double dy0, double dz0);
 	// Calculate an electron avalanche.
+	aval->EnablePlotting(viewdrift);
+    aval->EnableDriftLines();
 	aval->AvalancheElectron(x0, y0, z0, t0, e0, dx0, dy0, dz0);
+	
+	
+	
+
+    viewdrift->Plot();
+    
+	
 	
 	int ne, ni;
 	// Get the number of electrons and ions in the avalanche.
