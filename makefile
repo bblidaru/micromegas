@@ -27,3 +27,8 @@ micromegas: src/micromegas.cpp
 	$(CXX) $(CFLAGS) src/micromegas.cpp
 	$(CXX) -o micromegas micromegas.o $(LDFLAGS)
 	rm micromegas.o
+	
+micromegas_top: src/micromegas_top.cpp
+	$(CXX) $(CFLAGS) src/micromegas_top.cpp
+	$(CXX) -o micromegas_top micromegas_top.o $(LDFLAGS)
+	rm micromegas_top.o
