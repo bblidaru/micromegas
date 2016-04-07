@@ -36,37 +36,39 @@ int main(int argc, char * argv[])
 	plottingEngine.SetDefaultStyle();
 	
 	ComponentAnsys123* fm = new ComponentAnsys123();
-	fm->Initialise("ansys/ELIST.lis", "ansys/NLIST.lis", "ansys/MPLIST.lis", "ansys/PRNSOL.lis", "mm");
+	fm->Initialise("ansys2/ELIST.lis", "ansys2/NLIST.lis", "ansys2/MPLIST.lis", "ansys2/PRNSOL.lis", "mm");
 	// Set the periodicities.
 	////fm->EnableMirrorPeriodicityX();
 	//fm->EnableMirrorPeriodicityY();
 	// Print some information about the cell dimensions.
 	fm->PrintRange();
 
-	
-	//TCanvas * c1 = new TCanvas("c1", "c1", 10, 10, 1400, 700);
-	//c1->Divide(2,1);
+	for (float z=-31.75; z<-25.2; z+=0.2)
+		{
+	TCanvas * c1 = new TCanvas("c1", "c1", 10, 10, 1400, 700);
+	c1->Divide(2,1);
 		
-	//ViewField* fieldViewXY = new ViewField();
-    //fieldViewXY->SetComponent(fm);
-    //fieldViewXY->SetPlane(0., 0., -1., 0., 0., 0.);
-    //fieldViewXY->SetArea(-31.7,0,31.7,115);
-    //fieldViewXY->SetVoltageRange(-180, 500);
-    //fieldViewXY->SetCanvas((TCanvas*)c1->cd(1));
-    //fieldViewXY->PlotContour();
+	ViewField* fieldViewXY = new ViewField();
+    fieldViewXY->SetComponent(fm);
+    fieldViewXY->SetPlane(0., 0., -1., 0., 0., z);
+    fieldViewXY->SetArea(-31.7,8,31.7,15);
+    fieldViewXY->SetVoltageRange(-180, 500);
+    fieldViewXY->SetCanvas((TCanvas*)c1->cd(1));
+    fieldViewXY->PlotContour();
     
    
     
-    //ViewField* fieldViewYZ = new ViewField();
-    //fieldViewYZ->SetComponent(fm);
-    //fieldViewYZ->SetPlane(-1., 0., 0., 0., 0., 0.);
-    //fieldViewYZ->SetArea(-31.7,0,31.7,115);
-    //fieldViewYZ->SetVoltageRange(-180, 500);
-    //fieldViewYZ->SetCanvas((TCanvas*)c1->cd(2));
-    //fieldViewYZ->PlotContour();
+    ViewField* fieldViewYZ = new ViewField();
+    fieldViewYZ->SetComponent(fm);
+    fieldViewYZ->SetPlane(-1., 0., 0., z, 0., 0.);
+    fieldViewYZ->SetArea(-31.7,8,31.7,15);
+    fieldViewYZ->SetVoltageRange(-180, 500);
+    fieldViewYZ->SetCanvas((TCanvas*)c1->cd(2));
+    fieldViewYZ->PlotContour();
     
     
-    //c1->Print("output/field_xy_yz.png");
+    c1->Print(("output2/field_xy_yz_for_" + to_string(z) + ".png").c_str());
+    }
     
     //TCanvas * c2 = new TCanvas("c2", "c2", 10, 10, 700, 700);
 	
@@ -84,20 +86,21 @@ int main(int argc, char * argv[])
     //}
     
     
-    TCanvas * c3 = new TCanvas("c3", "c3", 10, 10, 700, 700);
+    //TCanvas * c3 = new TCanvas("c3", "c3", 10, 10, 700, 700);
 	
-	for (float z=-31.75; z<-23.2; z+=0.1)
-    {
-		ViewField* fieldViewXY = new ViewField();
-		fieldViewXY->SetComponent(fm);
-		fieldViewXY->SetPlane(0., 0., -1., 0., 0., z);
-		fieldViewXY->SetArea(-31.7,14.5,31.7,16.5);
-		fieldViewXY->SetVoltageRange(-5, 5);
-		fieldViewXY->SetCanvas((TCanvas*)c3->cd());
-		fieldViewXY->PlotContour();
-		c3->Print(("output/plan/field_xy_for_" + to_string(z) + ".png").c_str());
+	
+	//for (float z=-31.75; z<-23.2; z+=0.1)
+    //{
+		//ViewField* fieldViewXY = new ViewField();
+		//fieldViewXY->SetComponent(fm);
+		//fieldViewXY->SetPlane(0., 0., -1., 0., 0., z);
+		//fieldViewXY->SetArea(-31.7,14.3,31.7,17.8);
+		//fieldViewXY->SetVoltageRange(-5, 5);
+		//fieldViewXY->SetCanvas((TCanvas*)c3->cd());
+		//fieldViewXY->PlotContour();
+		//c3->Print(("output2/field_xy_for_" + to_string(z) + ".png").c_str());
 		
-    }
+    //}
     
     //ViewField* fieldViewZoom = new ViewField();
     //fieldViewZoom->SetComponent(fm);

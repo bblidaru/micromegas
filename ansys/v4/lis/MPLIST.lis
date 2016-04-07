@@ -1,0 +1,9 @@
+
+ LIST MATERIALS       1 TO       1 BY       1
+  PROPERTY= ALL 
+
+ MATERIAL NUMBER       1
+
+      TEMP        PERX
+                1.000000    
+
