@@ -11,7 +11,7 @@ using namespace std;
 using namespace Garfield;
 
 void plot_drift(ComponentAnsys123* fm)
-{
+{	
 	// This canvas will be used to display the drift lines and the field
 	TCanvas * c = new TCanvas("c", "c", 10, 10, 1000, 700);
 	c->Divide(2,1);
@@ -62,10 +62,10 @@ void plot_drift(ComponentAnsys123* fm)
 	// Electron info
 	double xele, yele, zele, tele, eele, dxele, dyele, dzele;
 	// Electron start and endpoints, momentum direction and status
-	double x0ele, y0ele, z0ele, t0ele, e0ele;// start point
-	double x1ele, y1ele, z1ele, t1ele, e1ele;// endpoint
-	double dx1ele, dy1ele, dz1ele; // momentum direction
-	int status1ele; // status
+	//double x0ele, y0ele, z0ele, t0ele, e0ele;// start point
+	//double x1ele, y1ele, z1ele, t1ele, e1ele;// endpoint
+	//double dx1ele, dy1ele, dz1ele; // momentum direction
+	//int status1ele; // status
 	int n = 0; // number of electrons in cluster
 	bool cls_ret;// return OK if cluster is OK
 
@@ -83,14 +83,14 @@ void plot_drift(ComponentAnsys123* fm)
 	cls_ret = track->GetCluster(xcls, ycls, zcls, tcls, n, e, extra);
 
 	// To accumulate the electron signal for each strip separately
-	double Qstrip1 = 0.0; double Qstrip2 = 0.0; double Qstrip3 = 0.0;
+	//double Qstrip1 = 0.0; double Qstrip2 = 0.0; double Qstrip3 = 0.0;
 
 	// Now loop over electrons in cluster
-	for(int j = 1; j <= n; j++){
-	track->GetElectron(j-1, xele, yele, zele, tele, eele, dxele, dyele, dzele);
-
-	// Simulate an avalanche for the current electron
-	aval->AvalancheElectron(xele, yele, zele, tele, eele, dxele, dyele, dzele); 
+	for(int j = 1; j <= n; j++)
+	{
+		track->GetElectron(j-1, xele, yele, zele, tele, eele, dxele, dyele, dzele);
+		// Simulate an avalanche for the current electron
+		aval->AvalancheElectron(xele, yele, zele, tele, eele, dxele, dyele, dzele); 
 	}
 
 	// To get Signal from each strip we get the it from each sensor
