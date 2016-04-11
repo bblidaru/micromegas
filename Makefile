@@ -23,13 +23,15 @@ clean:
 	rm -f micromegas.o
 	rm -f field.o
 	rm -f drift.o
+	rm -f geometry.o
 	rm -f micromegas
 	
 
 micromegas: src/micromegas.cpp
-	$(CXX) $(CFLAGS) src/micromegas.cpp src/field.cpp src/drift.cpp
-	$(CXX) -o micromegas micromegas.o field.o drift.o $(LDFLAGS)
+	$(CXX) $(CFLAGS) src/micromegas.cpp src/field.cpp src/drift.cpp src/geometry.cpp
+	$(CXX) -o micromegas micromegas.o field.o drift.o geometry.o $(LDFLAGS)
 	rm micromegas.o
 	rm field.o
 	rm drift.o
+	rm geometry.o
 	
