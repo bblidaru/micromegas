@@ -40,7 +40,7 @@ int main(int argc, char * argv[])
 	build_geometry(gas, cmpDrift, cmpAmp, sensor, geo);
 	plot_geometry(cmpDrift, cmpAmp, geo);
 	
-	//plot_fields(cmpDrift, cmpAmp, sensor);
+	plot_fields(cmpDrift, cmpAmp, sensor);
 	
 	
 	
