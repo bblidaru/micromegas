@@ -7,6 +7,7 @@
 #include <SolidTube.hh>
 #include <TGeoManager.h>
 #include <TGeoToStep.h>
+#include <TGeoTube.h>
 #include <TGeoCompositeShape.h>
 
 #include <ViewGeometry.hh>
@@ -15,8 +16,6 @@
 using namespace std;
 using namespace Garfield;
 
-
-#define MESH_REDUCING_FACTOR 100
 
 TGeoManager* build_geometry(MediumMagboltz* gas, ComponentAnalyticField* cmpDrift, ComponentAnalyticField* cmpAmp, Sensor* sensor)
 {
@@ -38,7 +37,7 @@ TGeoManager* build_geometry(MediumMagboltz* gas, ComponentAnalyticField* cmpDrif
 	const double v_mesh = 0.0;
 	const double v_bottom = 500.0;
 	// Mesh properties [cm]
-	const double m_thickness = 0.0003; // Mesh thickness (3um)
+	const double m_thickness = 0.0011; // Mesh thickness (11um)
 	const double m_width = 0.0011; // Mesh width (11um)
 	const double m_interpitch = 0.0039; // Distance between two consecutive mesh lines (39um)
 	const double m_pitch = m_width + m_interpitch; // Period of the mesh 
@@ -47,6 +46,19 @@ TGeoManager* build_geometry(MediumMagboltz* gas, ComponentAnalyticField* cmpDrif
 	const double s_pitch = 0.025; // Period of the strips (250um) 
 	const double s_width = 0.015; // Strip width (150um)	
 	const double s_interpitch = s_pitch - s_width; // Distance between two consecutive strip lines 
+	
+	// Mesh count
+	const int x_mesh_count = w / m_pitch; // How many tubes on x
+	const int y_mesh_count = l / m_pitch; // How many tubes on y
+	cout <<"x_mesh_count="<<x_mesh_count<<endl;
+	cout <<"y_mesh_count="<<y_mesh_count<<endl;
+	
+	// CELL INFO
+	// Width [cm]
+	const double w_cell = w/x_mesh_count; // X_cell length
+	// Length [cm]
+	const double l_cell = l/y_mesh_count; // Y_cell length
+		
 	
 	// ROOT GEOMETRY
 	TGeoManager *geom = new TGeoManager("Micromegas"," Geometry using ROOT");
@@ -58,30 +70,57 @@ TGeoManager* build_geometry(MediumMagboltz* gas, ComponentAnalyticField* cmpDrif
 	TGeoMaterial *matCu = new TGeoMaterial("Cu", 52, 24, 8.96);
 	
 	//   //--- define some media
-	TGeoMedium *Gas= new TGeoMedium("Gas",1, matGas);
-	TGeoMedium *Al = new TGeoMedium("Al",2, matAl);
-	TGeoMedium *Ni = new TGeoMedium("Ni",3, matNi);
-	TGeoMedium *Cu = new TGeoMedium("Cu",4, matCu);
+	TGeoMedium *medGas= new TGeoMedium("Gas",1, matGas);
+	TGeoMedium *medAl = new TGeoMedium("Al",2, matAl);
+	TGeoMedium *medNi = new TGeoMedium("Ni",3, matNi);
+	TGeoMedium *medCu = new TGeoMedium("Cu",4, matCu);
 	
-	TGeoVolume *top = geom->MakeBox("TOP", Gas, w/2, l/2, h_tot/2);
+	
+	TGeoVolume *top = geom->MakeBox("TOP", medGas, w_cell/2, l_cell/2, h_tot/2);
     geom->SetTopVolume(top);
 	geom->SetTopVisible();
 	
 	
-	TGeoVolume *volume_gas = geom->MakeBox("GAS", Gas, w/2, l/2, h_tot/2);
-	volume_gas->SetLineColor(kRed);
+	//TGeoVolume *volume_gas = geom->MakeBox("GAS", medGas, w_cell/2, l_cell/2, h_tot/2);
+	//top->AddNode(volume_gas,8);
+	//volume_gas->SetLineColor(kRed);
 	
-	TGeoVolume *plate_top = geom->MakeBox("PLATE_TOP", Al, w/2, l/2, h_plate_top/2);
+	
+	
+	TGeoVolume *plate_top = geom->MakeBox("PLATE_TOP", medAl, w_cell/2, l_cell/2, h_plate_top/2);
     plate_top->SetLineColor(kBlue);
-	top->AddNode(plate_top,1,new TGeoTranslation(0, 0,0.3068));
+    TGeoTranslation* tr_top = new TGeoTranslation("TR_TOP", 0, 0, h_tot/2 - h_plate_top/2);
+	top->AddNode(plate_top,1, tr_top);
 	
-	TGeoVolume *plate_bottom = geom->MakeBox("PLATE_BOTTOM", Cu, w/2, l/2, h_plate_bottom/2);
+	TGeoVolume *plate_bottom = geom->MakeBox("PLATE_BOTTOM", medCu, w_cell/2, l_cell/2, h_plate_bottom/2);
     plate_bottom->SetLineColor(kGreen);
-	top->AddNode(plate_bottom, 2, new TGeoTranslation(0, 0, -0.3068));
+    TGeoTranslation* tr_bottom = new TGeoTranslation("TR_BOTTOM", 0, 0, -(h_tot/2 - h_plate_bottom/2));
+	top->AddNode(plate_bottom, 2, tr_bottom);
+	
+	TGeoTube *tube1  = new TGeoTube("TUBE_X", 0, m_thickness/2, w_cell/2);
 	
 	
 	
+	//TGeoVolume *tube1 = geom->MakeTube("TUBE_X", medNi, 0, m_thickness/2, w_cell/2);
+	//tube1->SetLineColor(kRed);
+	//TGeoRotation*   r1 = new TGeoRotation("ROT_X",0,90,0);
+	//TGeoCombiTrans* t1 = new TGeoCombiTrans("TR_X", 0, 0, - h_tot/2 + (m_thickness/2 + h_amp + h_plate_bottom), r1);
+	//top->AddNode(tube1,3, t1);
+	//t1 -> RegisterYourself();
 	
+	//TGeoVolume *tube2 = geom->MakeTube("TUBE_Y", medNi, 0, m_thickness/2, w_cell/2);
+	//tube2->SetLineColor(kOrange);
+	//TGeoRotation*   r2 = new TGeoRotation("ROT_Y",90,90,90);
+	//TGeoCombiTrans* t2 = new TGeoCombiTrans("TR_Y", 0, 0, - h_tot/2 + (m_thickness/2 + h_amp + h_plate_bottom), r2);
+	////top->AddNode(tube2, 4, t2);
+	//t2 -> RegisterYourself();
+	
+	
+	
+	TGeoCompositeShape *substraction = new TGeoCompositeShape("SUBST", "TOP - PLATE_TOP:TR_TOP - PLATE_BOTTOM:TR_BOTTOM - TUBE_X"); //  - ( TUBE_X:TR_X + TUBE_Y:TR_Y)
+	TGeoVolume *comp = new TGeoVolume("COMP",substraction);
+	comp->SetLineColor(kYellow);
+	top->AddNode(comp,5);
 	
 	//const int x_strip_count = w / s_pitch; // How many strips on x
 	//const int z_strip_count = l / s_pitch; // How many strips on y
@@ -115,63 +154,21 @@ TGeoManager* build_geometry(MediumMagboltz* gas, ComponentAnalyticField* cmpDrif
 
 	
 	
-	const int x_mesh_count = w / m_pitch / MESH_REDUCING_FACTOR; // How many tubes on x
-	const int z_mesh_count = l / m_pitch / MESH_REDUCING_FACTOR; // How many tubes on y
-	
-	cout <<"x_mesh_count="<<x_mesh_count<<endl;
-	cout <<"z_mesh_count="<<z_mesh_count<<endl;
 
-	double x_mesh_offset = -w/2;
-	double z_mesh_offset = -l/2;
-	
-	
 		//TGeoRotation*   r = new TGeoRotation("rot4",90,90,0,0,90,0);
 		
 		
-		
-		TGeoVolume *tube = geom->MakeTube("TUBE_MESH", Ni, 0, m_thickness/2, w/2);
-		tube->SetLineColor(kRed);
-
-	TGeoRotation*   r1 = new TGeoRotation("ROT_X",0,90,0);
-	
-	string op = "GAS ";
-	
-	for(int k=0; k<x_mesh_count; k++)
-	{
-		string name = "TR_ROT_X_"+to_string(k);
-		
-		TGeoCombiTrans* t = new TGeoCombiTrans(name.c_str(), x_mesh_offset, 0, - h_tot/2 + (m_thickness/2 + h_amp + h_plate_bottom), r1);
-		t -> RegisterYourself();
-		
-		op += " - TUBE_MESH:" + name;
-        //top->AddNode(tube, k, t);
-		x_mesh_offset += m_pitch * MESH_REDUCING_FACTOR;
-		
-	}
-	
-	TGeoRotation*   r2 = new TGeoRotation("ROT_Y",90,90,90);
-
-	for(int q=0; q<z_mesh_count; q++)
-	{
-		string name = "TR_ROT_Y_"+to_string(q);
-		TGeoCombiTrans* t = new TGeoCombiTrans(name.c_str(),0, z_mesh_offset, - h_tot/2 + (m_thickness/2 + h_amp + h_plate_bottom), r2);
-		t->RegisterYourself();
-		
-		op += " - TUBE_MESH:" + name;
-        //top->AddNode(tube, q, t);
-		z_mesh_offset += m_pitch * MESH_REDUCING_FACTOR;
-	}
 	
 	
 
 	
-	TGeoCompositeShape *substraction = new TGeoCompositeShape("SUBST", op.c_str());
+	//TGeoCompositeShape *substraction = new TGeoCompositeShape("SUBST", op.c_str());
 
 
-	TGeoVolume *comp = new TGeoVolume("COMP",substraction);
-	comp->SetLineColor(5);
+	//TGeoVolume *comp = new TGeoVolume("COMP",substraction);
+	//comp->SetLineColor(5);
 
-	top->AddNode(comp,10);
+	//top->AddNode(comp,10);
 
 
 	geom->CloseGeometry();
