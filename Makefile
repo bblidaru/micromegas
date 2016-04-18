@@ -4,16 +4,19 @@ INCDIR = $(GARFIELD_HOME)/Include
 HEEDDIR = $(GARFIELD_HOME)/Heed
 LIBDIR = $(GARFIELD_HOME)/Library
 
+# Directory which contains TGeoToStep.h file. It is not installed by root by default (bug?)
+#GEOCADDIR = /home/bblidaru/Software/root-6.06.00/geom/geocad/inc/
+
 # Compiler flags
 CFLAGS = -Wall -Wextra -Wno-long-long -Wno-unused -Wno-unused-parameter \
         `root-config --cflags` -std=c++11 \
         -O3 -fno-common -c \
-        -I$(INCDIR) -I$(HEEDDIR)
+        -I$(INCDIR) -I$(HEEDDIR) 
 
 # Debug flags
 CFLAGS += -g
 
-LDFLAGS = `root-config --glibs` -lGeom -lgfortran -lm
+LDFLAGS = `root-config --glibs` -lGeom -lGeoCad -lgfortran -lm
 LDFLAGS += -L$(LIBDIR) -lGarfield 
 LDFLAGS += -g
 

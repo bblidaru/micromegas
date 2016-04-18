@@ -12,6 +12,7 @@
 #include "drift.hpp"
 #include "geometry.hpp"
 #include "plot.hpp"
+#include <TGeoManager.h>
 
 using namespace std;
 using namespace Garfield;
@@ -24,7 +25,7 @@ int main(int argc, char * argv[])
 	Sensor* sensor = new Sensor();
 	ComponentAnalyticField* cmpDrift = new ComponentAnalyticField();
 	ComponentAnalyticField* cmpAmp = new ComponentAnalyticField();
-	GeometrySimple* geo = new GeometrySimple(); 
+
 
 	sensor->AddComponent(cmpDrift);
 	sensor->AddComponent(cmpAmp);
@@ -37,10 +38,10 @@ int main(int argc, char * argv[])
 	gas->Initialise(true);	
 	gas->LoadIonMobility("/opt/garfield/Data/IonMobility_Ar+_Ar.txt");
 	
-	build_geometry(gas, cmpDrift, cmpAmp, sensor, geo);
-	plot_geometry(cmpDrift, cmpAmp, geo);
+	build_geometry(gas, cmpDrift, cmpAmp, sensor);
+	//plot_geometry(cmpDrift, cmpAmp, geo);
 	
-	plot_fields(cmpDrift, cmpAmp, sensor);
+	//plot_fields(cmpDrift, cmpAmp, sensor);
 	
 	
 	
