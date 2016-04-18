@@ -129,32 +129,43 @@ TGeoManager* build_geometry(MediumMagboltz* gas, ComponentAnalyticField* cmpDrif
 		
 		
 		
-		TGeoVolume *tube = geom->MakeTube("TUBE_1", Ni, 0, m_thickness/2, w/2);
+		TGeoVolume *tube = geom->MakeTube("TUBE_MESH", Ni, 0, m_thickness/2, w/2);
 		tube->SetLineColor(kRed);
 
-	TGeoRotation*   r1 = new TGeoRotation("rot4",0,90,0);
+	TGeoRotation*   r1 = new TGeoRotation("ROT_X",0,90,0);
+	
+	string op = "GAS ";
 	
 	for(int k=0; k<x_mesh_count; k++)
 	{
+		string name = "TR_ROT_X_"+to_string(k);
 		
-		TGeoCombiTrans* t = new TGeoCombiTrans(x_mesh_offset, 0, - h_tot/2 + (m_thickness/2 + h_amp + h_plate_bottom), r1);
-        top->AddNode(tube, k, t);
+		TGeoCombiTrans* t = new TGeoCombiTrans(name.c_str(), x_mesh_offset, 0, - h_tot/2 + (m_thickness/2 + h_amp + h_plate_bottom), r1);
+		t -> RegisterYourself();
+		
+		op += " - TUBE_MESH:" + name;
+        //top->AddNode(tube, k, t);
 		x_mesh_offset += m_pitch * MESH_REDUCING_FACTOR;
 		
 	}
 	
-	TGeoRotation*   r2 = new TGeoRotation("rot5",90,90,90);
+	TGeoRotation*   r2 = new TGeoRotation("ROT_Y",90,90,90);
 
 	for(int q=0; q<z_mesh_count; q++)
 	{
-		TGeoCombiTrans* t = new TGeoCombiTrans(0, z_mesh_offset, - h_tot/2 + (m_thickness/2 + h_amp + h_plate_bottom), r2);
-        top->AddNode(tube, q, t);
+		string name = "TR_ROT_Y_"+to_string(q);
+		TGeoCombiTrans* t = new TGeoCombiTrans(name.c_str(),0, z_mesh_offset, - h_tot/2 + (m_thickness/2 + h_amp + h_plate_bottom), r2);
+		t->RegisterYourself();
+		
+		op += " - TUBE_MESH:" + name;
+        //top->AddNode(tube, q, t);
 		z_mesh_offset += m_pitch * MESH_REDUCING_FACTOR;
 	}
 	
 	
+
 	
-	TGeoCompositeShape *substraction = new TGeoCompositeShape("SUBST", "GAS - PLATE_TOP - PLATE_BOTTOM - TUBE_1");
+	TGeoCompositeShape *substraction = new TGeoCompositeShape("SUBST", op.c_str());
 
 
 	TGeoVolume *comp = new TGeoVolume("COMP",substraction);
