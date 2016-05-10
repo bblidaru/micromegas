@@ -3,6 +3,7 @@
 #include <cmath>
 
 #include <TApplication.h>
+<<<<<<< HEAD
 #include <TCanvas.h>
 
 #include "ComponentAnsys123.hh"
@@ -18,6 +19,21 @@
 #include "ComponentAnalyticField.hh"
 #include "AvalancheMicroscopic.hh"
 #include "Plotting.hh"
+=======
+#include <ComponentAnsys123.hh>
+#include <Plotting.hh>
+#include <MediumMagboltz.hh>
+#include "GeometrySimple.hh"
+#include <ComponentAnalyticField.hh>
+#include <Sensor.hh>
+#include <ViewGeometry.hh>
+#include "GeometrySimple.hh"
+#include "field.hpp"
+#include "drift.hpp"
+#include "geometry.hpp"
+#include "plot.hpp"
+#include <TGeoManager.h>
+>>>>>>> 4457d833faaf35007b7df4ee556f9da54c2d0ebf
 
 using namespace Garfield;
 using namespace std;
@@ -30,6 +46,7 @@ int main(int argc, char * argv[]){
 
 
 
+<<<<<<< HEAD
 	
 	// Width [cm]
 	const double w = 10.0;
@@ -94,6 +111,20 @@ int main(int argc, char * argv[]){
 	
 	cout << "x_strip_count ="<<x_strip_count;
 	cout << "z_strip_count ="<<z_strip_count;
+=======
+int main(int argc, char * argv[])
+{
+	TApplication app("micromegas", &argc, argv);
+	plottingEngine.SetDefaultStyle();
+	
+	Sensor* sensor = new Sensor();
+	ComponentAnalyticField* cmpDrift = new ComponentAnalyticField();
+	ComponentAnalyticField* cmpAmp = new ComponentAnalyticField();
+
+
+	sensor->AddComponent(cmpDrift);
+	sensor->AddComponent(cmpAmp);
+>>>>>>> 4457d833faaf35007b7df4ee556f9da54c2d0ebf
 	
 
 	for (int i=0; i<x_strip_count; i++)
@@ -105,6 +136,7 @@ int main(int argc, char * argv[]){
 		x_offset += s_pitch;
 	}
 	
+<<<<<<< HEAD
 	for (int j=0; j<z_strip_count; j++)
 	{
 		z_strip_centers[j] = z_offset + s_width / 2.0;
@@ -113,6 +145,13 @@ int main(int argc, char * argv[]){
 		
 		z_offset += s_pitch;
 	}
+=======
+	build_geometry(gas, cmpDrift, cmpAmp, sensor);
+	//plot_geometry(cmpDrift, cmpAmp, geo);
+	
+	//plot_fields(cmpDrift, cmpAmp, sensor);
+	
+>>>>>>> 4457d833faaf35007b7df4ee556f9da54c2d0ebf
 	
 	
 	//Finally we assemble a Sensor object 
