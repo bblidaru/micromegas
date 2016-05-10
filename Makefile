@@ -20,7 +20,7 @@ LDFLAGS = `root-config --glibs` -lGeom -lGeoCad -lgfortran -lm
 LDFLAGS += -L$(LIBDIR) -lGarfield 
 LDFLAGS += -g
 
-all: clean micromegas
+all: clean micromegas plain
 
 clean:
 	rm -f micromegas.o
@@ -30,11 +30,14 @@ clean:
 	rm -f micromegas
 	rm -f plot.o
 	
+plain: src/plain.cpp
+	$(CXX) $(CFLAGS) src/plain.cpp
+	$(CXX) -o plain plain.o $(LDFLAGS)
+	rm plain.o
 
 micromegas: src/micromegas.cpp
 	$(CXX) $(CFLAGS) src/micromegas.cpp src/field.cpp src/drift.cpp src/geometry.cpp src/plot.cpp
 	$(CXX) -o micromegas micromegas.o field.o drift.o geometry.o plot.o $(LDFLAGS)
-	
 	rm micromegas.o
 	rm field.o
 	rm drift.o
