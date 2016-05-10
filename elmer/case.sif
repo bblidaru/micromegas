@@ -37,9 +37,9 @@ End
 
 Solver 1
   Equation = Result Output
-  Procedure = "ResultOutputSolve" "ResultOutputSolver"
-  Output File Name = case
   Output Format = Vtu
+  Output File Name = case
+  Procedure = "ResultOutputSolve" "ResultOutputSolver"
   Exec Solver = Always
 End
 
