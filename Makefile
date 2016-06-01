@@ -20,7 +20,7 @@ LDFLAGS = `root-config --glibs` -lGeom -lGeoCad -lgfortran -lm
 LDFLAGS += -L$(LIBDIR) -lGarfield 
 LDFLAGS += -g
 
-all: clean micromegas plain low
+all: clean micromegas plain low graf
 
 clean:
 	rm -f micromegas.o
@@ -48,6 +48,12 @@ low: src/mm_low_working_salome.cpp
 	$(CXX) $(CFLAGS) src/mm_low_working_salome.cpp
 	$(CXX) -o low mm_low_working_salome.o $(LDFLAGS)
 	rm mm_low_working_salome.o
+
+
+graf: src/graf_pres.cpp
+	$(CXX) $(CFLAGS) src/graf_pres.cpp
+	$(CXX) -o graf_pres graf_pres.o $(LDFLAGS)
+	rm graf_pres.o
 	
 	
 	
