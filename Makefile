@@ -16,7 +16,7 @@ CFLAGS = -Wall -Wextra -Wno-long-long -Wno-unused -Wno-unused-parameter \
 # Debug flags
 CFLAGS += -g
 
-LDFLAGS = `root-config --glibs` -lGeom -lGeoCad -lgfortran -lm
+LDFLAGS = `root-config --glibs` -lGeom -lgfortran -lm
 LDFLAGS += -L$(LIBDIR) -lGarfield 
 LDFLAGS += -g
 
