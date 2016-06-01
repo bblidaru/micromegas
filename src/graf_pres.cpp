@@ -311,7 +311,7 @@ int main(int argc, char * argv[]){
 		}
 	
 	
-	int tot_nElastic, tot_nIonising, tot_nAttachment, tot_nInelastic, tot_nExcitation, tot_nSuperelastic =0;
+	int tot_nElastic=0, tot_nIonising=0, tot_nAttachment=0, tot_nInelastic=0, tot_nExcitation=0, tot_nSuperelastic=0;
 
 	track->DisableDeltaElectronTransport();
 	do
