@@ -84,9 +84,9 @@ int main(int argc, char * argv[]){
 	  const double Wstrip = Pitch - Interpitch;
 
 	  // Electrode potentials
-	  const double Vdrift = -3000.;
-	  const double Vamp = -500.;
-	  const double Vstrip = 0.;
+	  const double Vdrift = -180.;
+	  const double Vamp = 0.;
+	  const double Vstrip = 500.;
 
 	  // Magnetic field 
 	  const double MagX = 0.;
