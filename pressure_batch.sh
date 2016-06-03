@@ -1,65 +1,407 @@
 #!/bin/bash
 
 
-echo "# pressure, temperature, tot_ncls, tot_ecls, tot_n_e_aval, tot_n_i_aval, tnElastic, tnIonising, tnAttachment, tnInelastic, tnExcitation, tnSuperelastic, nr_interactions, QStrip[0,1,2,....]" > pressure.txt
+echo "# pressure, temperature, tot_ncls, tot_ecls, tot_n_e_aval, tot_n_i_aval, tnElastic, tnIonising, tnAttachment, tnInelastic, tnExcitation, tnSuperelastic, nr_interactions, QStrip[0,1,2,....]" > data.txt
 
-./graf_pres 760.0
-./graf_pres 760.0
-./graf_pres 760.0
-./graf_pres 760.0
-./graf_pres 760.0
-./graf_pres 760.0
-./graf_pres 760.0
-./graf_pres 760.0
-./graf_pres 760.0
-./graf_pres 760.0
-./graf_pres 760.0
-./graf_pres 760.0
-./graf_pres 760.0
-./graf_pres 760.0
-./graf_pres 760.0
-./graf_pres 760.0
-./graf_pres 760.0
-./graf_pres 760.0
-./graf_pres 760.0
-./graf_pres 760.0
-./graf_pres 760.0
-./graf_pres 760.0
-./graf_pres 760.0
-./graf_pres 760.0
-./graf_pres 760.0
-./graf_pres 760.0
-./graf_pres 760.0
-./graf_pres 760.0
-./graf_pres 760.0
-./graf_pres 760.0
-./graf_pres 760.0
-./graf_pres 760.0
-./graf_pres 760.0
-./graf_pres 760.0
-./graf_pres 760.0
-./graf_pres 760.0
-./graf_pres 760.0
-./graf_pres 760.0
-./graf_pres 760.0
-./graf_pres 760.0
-./graf_pres 760.0
-./graf_pres 760.0
-./graf_pres 760.0
-./graf_pres 760.0
-./graf_pres 760.0
-./graf_pres 760.0
-./graf_pres 760.0
-./graf_pres 760.0
-./graf_pres 760.0
-./graf_pres 760.0
-./graf_pres 760.0
-./graf_pres 760.0
-./graf_pres 760.0
-./graf_pres 760.0
-./graf_pres 760.0
-./graf_pres 760.0
-./graf_pres 760.0
-./graf_pres 760.0
-./graf_pres 760.0
-./graf_pres 760.0
+
+./graf_pres -e 1.e9
+./graf_pres -e 1.e9
+./graf_pres -e 1.e9
+./graf_pres -e 1.e9
+./graf_pres -e 1.e9
+./graf_pres -e 1.e9
+./graf_pres -e 1.e9
+./graf_pres -e 1.e9
+./graf_pres -e 1.e9
+./graf_pres -e 1.e9
+./graf_pres -e 1.e9
+./graf_pres -e 1.e9
+./graf_pres -e 1.e9
+./graf_pres -e 1.e9
+./graf_pres -e 1.e9
+./graf_pres -e 1.e9
+./graf_pres -e 1.e9
+./graf_pres -e 1.e9
+./graf_pres -e 1.e9
+./graf_pres -e 1.e9
+./graf_pres -e 1.e9
+./graf_pres -e 1.e9
+./graf_pres -e 1.e9
+./graf_pres -e 1.e9
+./graf_pres -e 1.e9
+./graf_pres -e 1.e9
+./graf_pres -e 1.e9
+./graf_pres -e 1.e9
+./graf_pres -e 1.e9
+./graf_pres -e 1.e9
+./graf_pres -e 1.e9
+./graf_pres -e 1.e9
+./graf_pres -e 1.e9
+./graf_pres -e 1.e9
+./graf_pres -e 1.e9
+./graf_pres -e 1.e9
+./graf_pres -e 1.e9
+./graf_pres -e 1.e9
+./graf_pres -e 1.e9
+./graf_pres -e 1.e9
+./graf_pres -e 1.e9
+./graf_pres -e 1.e9
+./graf_pres -e 1.e9
+./graf_pres -e 1.e9
+./graf_pres -e 1.e9
+./graf_pres -e 1.e9
+./graf_pres -e 1.e9
+./graf_pres -e 1.e9
+./graf_pres -e 1.e9
+./graf_pres -e 1.e9
+./graf_pres -e 1.e9
+./graf_pres -e 1.e9
+./graf_pres -e 1.e9
+./graf_pres -e 1.e9
+./graf_pres -e 1.e9
+./graf_pres -e 1.e9
+./graf_pres -e 1.e9
+./graf_pres -e 1.e9
+./graf_pres -e 1.e9
+./graf_pres -e 1.e9
+./graf_pres -e 1.e9
+./graf_pres -e 1.e9
+./graf_pres -e 1.e9
+./graf_pres -e 1.e9
+./graf_pres -e 1.e9
+./graf_pres -e 1.e9
+./graf_pres -e 1.e9
+./graf_pres -e 1.e9
+./graf_pres -e 1.e9
+./graf_pres -e 1.e9
+./graf_pres -e 1.e9
+./graf_pres -e 1.e9
+./graf_pres -e 1.e9
+./graf_pres -e 1.e9
+./graf_pres -e 1.e9
+./graf_pres -e 1.e9
+./graf_pres -e 1.e9
+./graf_pres -e 1.e9
+./graf_pres -e 1.e9
+./graf_pres -e 1.e9
+./graf_pres -e 1.e9
+./graf_pres -e 1.e9
+./graf_pres -e 1.e9
+./graf_pres -e 1.e9
+./graf_pres -e 1.e9
+./graf_pres -e 1.e9
+./graf_pres -e 1.e9
+./graf_pres -e 1.e9
+./graf_pres -e 1.e9
+./graf_pres -e 1.e9
+./graf_pres -e 1.e9
+./graf_pres -e 1.e9
+./graf_pres -e 1.e9
+./graf_pres -e 1.e9
+./graf_pres -e 1.e9
+./graf_pres -e 1.e9
+./graf_pres -e 1.e9
+./graf_pres -e 1.e9
+./graf_pres -e 1.e9
+./graf_pres -e 1.e9
+./graf_pres -e 10.e9
+./graf_pres -e 10.e9
+./graf_pres -e 10.e9
+./graf_pres -e 10.e9
+./graf_pres -e 10.e9
+./graf_pres -e 10.e9
+./graf_pres -e 10.e9
+./graf_pres -e 10.e9
+./graf_pres -e 10.e9
+./graf_pres -e 10.e9
+./graf_pres -e 10.e9
+./graf_pres -e 10.e9
+./graf_pres -e 10.e9
+./graf_pres -e 10.e9
+./graf_pres -e 10.e9
+./graf_pres -e 10.e9
+./graf_pres -e 10.e9
+./graf_pres -e 10.e9
+./graf_pres -e 10.e9
+./graf_pres -e 10.e9
+./graf_pres -e 10.e9
+./graf_pres -e 10.e9
+./graf_pres -e 10.e9
+./graf_pres -e 10.e9
+./graf_pres -e 10.e9
+./graf_pres -e 10.e9
+./graf_pres -e 10.e9
+./graf_pres -e 10.e9
+./graf_pres -e 10.e9
+./graf_pres -e 10.e9
+./graf_pres -e 10.e9
+./graf_pres -e 10.e9
+./graf_pres -e 10.e9
+./graf_pres -e 10.e9
+./graf_pres -e 10.e9
+./graf_pres -e 10.e9
+./graf_pres -e 10.e9
+./graf_pres -e 10.e9
+./graf_pres -e 10.e9
+./graf_pres -e 10.e9
+./graf_pres -e 10.e9
+./graf_pres -e 10.e9
+./graf_pres -e 10.e9
+./graf_pres -e 10.e9
+./graf_pres -e 10.e9
+./graf_pres -e 10.e9
+./graf_pres -e 10.e9
+./graf_pres -e 10.e9
+./graf_pres -e 10.e9
+./graf_pres -e 10.e9
+./graf_pres -e 10.e9
+./graf_pres -e 10.e9
+./graf_pres -e 10.e9
+./graf_pres -e 10.e9
+./graf_pres -e 10.e9
+./graf_pres -e 10.e9
+./graf_pres -e 10.e9
+./graf_pres -e 10.e9
+./graf_pres -e 10.e9
+./graf_pres -e 10.e9
+./graf_pres -e 10.e9
+./graf_pres -e 10.e9
+./graf_pres -e 10.e9
+./graf_pres -e 10.e9
+./graf_pres -e 10.e9
+./graf_pres -e 10.e9
+./graf_pres -e 10.e9
+./graf_pres -e 10.e9
+./graf_pres -e 10.e9
+./graf_pres -e 10.e9
+./graf_pres -e 10.e9
+./graf_pres -e 10.e9
+./graf_pres -e 10.e9
+./graf_pres -e 10.e9
+./graf_pres -e 10.e9
+./graf_pres -e 10.e9
+./graf_pres -e 10.e9
+./graf_pres -e 10.e9
+./graf_pres -e 10.e9
+./graf_pres -e 10.e9
+./graf_pres -e 10.e9
+./graf_pres -e 10.e9
+./graf_pres -e 10.e9
+./graf_pres -e 10.e9
+./graf_pres -e 10.e9
+./graf_pres -e 10.e9
+./graf_pres -e 10.e9
+./graf_pres -e 10.e9
+./graf_pres -e 10.e9
+./graf_pres -e 10.e9
+./graf_pres -e 10.e9
+./graf_pres -e 10.e9
+./graf_pres -e 10.e9
+./graf_pres -e 10.e9
+./graf_pres -e 10.e9
+./graf_pres -e 10.e9
+./graf_pres -e 10.e9
+./graf_pres -e 10.e9
+./graf_pres -e 10.e9
+./graf_pres -e 10.e9
+./graf_pres -e 25.e9
+./graf_pres -e 25.e9
+./graf_pres -e 25.e9
+./graf_pres -e 25.e9
+./graf_pres -e 25.e9
+./graf_pres -e 25.e9
+./graf_pres -e 25.e9
+./graf_pres -e 25.e9
+./graf_pres -e 25.e9
+./graf_pres -e 25.e9
+./graf_pres -e 25.e9
+./graf_pres -e 25.e9
+./graf_pres -e 25.e9
+./graf_pres -e 25.e9
+./graf_pres -e 25.e9
+./graf_pres -e 25.e9
+./graf_pres -e 25.e9
+./graf_pres -e 25.e9
+./graf_pres -e 25.e9
+./graf_pres -e 25.e9
+./graf_pres -e 25.e9
+./graf_pres -e 25.e9
+./graf_pres -e 25.e9
+./graf_pres -e 25.e9
+./graf_pres -e 25.e9
+./graf_pres -e 25.e9
+./graf_pres -e 25.e9
+./graf_pres -e 25.e9
+./graf_pres -e 25.e9
+./graf_pres -e 25.e9
+./graf_pres -e 25.e9
+./graf_pres -e 25.e9
+./graf_pres -e 25.e9
+./graf_pres -e 25.e9
+./graf_pres -e 25.e9
+./graf_pres -e 25.e9
+./graf_pres -e 25.e9
+./graf_pres -e 25.e9
+./graf_pres -e 25.e9
+./graf_pres -e 25.e9
+./graf_pres -e 25.e9
+./graf_pres -e 25.e9
+./graf_pres -e 25.e9
+./graf_pres -e 25.e9
+./graf_pres -e 25.e9
+./graf_pres -e 25.e9
+./graf_pres -e 25.e9
+./graf_pres -e 25.e9
+./graf_pres -e 25.e9
+./graf_pres -e 25.e9
+./graf_pres -e 25.e9
+./graf_pres -e 25.e9
+./graf_pres -e 25.e9
+./graf_pres -e 25.e9
+./graf_pres -e 25.e9
+./graf_pres -e 25.e9
+./graf_pres -e 25.e9
+./graf_pres -e 25.e9
+./graf_pres -e 25.e9
+./graf_pres -e 25.e9
+./graf_pres -e 25.e9
+./graf_pres -e 25.e9
+./graf_pres -e 25.e9
+./graf_pres -e 25.e9
+./graf_pres -e 25.e9
+./graf_pres -e 25.e9
+./graf_pres -e 25.e9
+./graf_pres -e 25.e9
+./graf_pres -e 25.e9
+./graf_pres -e 25.e9
+./graf_pres -e 25.e9
+./graf_pres -e 25.e9
+./graf_pres -e 25.e9
+./graf_pres -e 25.e9
+./graf_pres -e 25.e9
+./graf_pres -e 25.e9
+./graf_pres -e 25.e9
+./graf_pres -e 25.e9
+./graf_pres -e 25.e9
+./graf_pres -e 25.e9
+./graf_pres -e 25.e9
+./graf_pres -e 25.e9
+./graf_pres -e 25.e9
+./graf_pres -e 25.e9
+./graf_pres -e 25.e9
+./graf_pres -e 25.e9
+./graf_pres -e 25.e9
+./graf_pres -e 25.e9
+./graf_pres -e 25.e9
+./graf_pres -e 25.e9
+./graf_pres -e 25.e9
+./graf_pres -e 25.e9
+./graf_pres -e 25.e9
+./graf_pres -e 25.e9
+./graf_pres -e 25.e9
+./graf_pres -e 25.e9
+./graf_pres -e 25.e9
+./graf_pres -e 25.e9
+./graf_pres -e 25.e9
+./graf_pres -e 25.e9
+./graf_pres -e 50.e9
+./graf_pres -e 50.e9
+./graf_pres -e 50.e9
+./graf_pres -e 50.e9
+./graf_pres -e 50.e9
+./graf_pres -e 50.e9
+./graf_pres -e 50.e9
+./graf_pres -e 50.e9
+./graf_pres -e 50.e9
+./graf_pres -e 50.e9
+./graf_pres -e 50.e9
+./graf_pres -e 50.e9
+./graf_pres -e 50.e9
+./graf_pres -e 50.e9
+./graf_pres -e 50.e9
+./graf_pres -e 50.e9
+./graf_pres -e 50.e9
+./graf_pres -e 50.e9
+./graf_pres -e 50.e9
+./graf_pres -e 50.e9
+./graf_pres -e 50.e9
+./graf_pres -e 50.e9
+./graf_pres -e 50.e9
+./graf_pres -e 50.e9
+./graf_pres -e 50.e9
+./graf_pres -e 50.e9
+./graf_pres -e 50.e9
+./graf_pres -e 50.e9
+./graf_pres -e 50.e9
+./graf_pres -e 50.e9
+./graf_pres -e 50.e9
+./graf_pres -e 50.e9
+./graf_pres -e 50.e9
+./graf_pres -e 50.e9
+./graf_pres -e 50.e9
+./graf_pres -e 50.e9
+./graf_pres -e 50.e9
+./graf_pres -e 50.e9
+./graf_pres -e 50.e9
+./graf_pres -e 50.e9
+./graf_pres -e 50.e9
+./graf_pres -e 50.e9
+./graf_pres -e 50.e9
+./graf_pres -e 50.e9
+./graf_pres -e 50.e9
+./graf_pres -e 50.e9
+./graf_pres -e 50.e9
+./graf_pres -e 50.e9
+./graf_pres -e 50.e9
+./graf_pres -e 50.e9
+./graf_pres -e 50.e9
+./graf_pres -e 50.e9
+./graf_pres -e 50.e9
+./graf_pres -e 50.e9
+./graf_pres -e 50.e9
+./graf_pres -e 50.e9
+./graf_pres -e 50.e9
+./graf_pres -e 50.e9
+./graf_pres -e 50.e9
+./graf_pres -e 50.e9
+./graf_pres -e 50.e9
+./graf_pres -e 50.e9
+./graf_pres -e 50.e9
+./graf_pres -e 50.e9
+./graf_pres -e 50.e9
+./graf_pres -e 50.e9
+./graf_pres -e 50.e9
+./graf_pres -e 50.e9
+./graf_pres -e 50.e9
+./graf_pres -e 50.e9
+./graf_pres -e 50.e9
+./graf_pres -e 50.e9
+./graf_pres -e 50.e9
+./graf_pres -e 50.e9
+./graf_pres -e 50.e9
+./graf_pres -e 50.e9
+./graf_pres -e 50.e9
+./graf_pres -e 50.e9
+./graf_pres -e 50.e9
+./graf_pres -e 50.e9
+./graf_pres -e 50.e9
+./graf_pres -e 50.e9
+./graf_pres -e 50.e9
+./graf_pres -e 50.e9
+./graf_pres -e 50.e9
+./graf_pres -e 50.e9
+./graf_pres -e 50.e9
+./graf_pres -e 50.e9
+./graf_pres -e 50.e9
+./graf_pres -e 50.e9
+./graf_pres -e 50.e9
+./graf_pres -e 50.e9
+./graf_pres -e 50.e9
+./graf_pres -e 50.e9
+./graf_pres -e 50.e9
+./graf_pres -e 50.e9
+./graf_pres -e 50.e9
+./graf_pres -e 50.e9
+./graf_pres -e 50.e9
+./graf_pres -e 50.e9
+

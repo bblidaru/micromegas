@@ -1,6 +1,7 @@
 #include <iostream>
 #include <fstream>
 #include <cmath>
+#include <getopt.h>
 
 #include <TApplication.h>
 #include <TCanvas.h>
@@ -29,21 +30,95 @@ typedef enum {
   MODE_POS_RND_DIR_RND
 } TypeMode;
 
-int main(int argc, char * argv[]){
+int main(int argc, char * argv[])
+{
 
-  if (argc != 2)
-  {
-	cout << "This program expect an argument (pressure)" <<endl;
-	exit(1);
-  }
-  
-  double pressure = std::stod(argv[1]);
+
+	double gas_pressure = 760.;
+	double gas_temperature = 273.15;
+	double particle_energy = 170.e9; // eV/c
+	
+  int cp;
+
+  while (1)
+    {
+      static struct option long_options[] =
+        {
+          /* These options set a flag. */
+         // {"verbose", no_argument,       &verbose_flag, 1},
+         // {"brief",   no_argument,       &verbose_flag, 0},
+          /* These options don’t set a flag.
+             We distinguish them by their indices. */
+          {"gas_pressure",     required_argument,       0, 'p'},
+          {"gas_temperature",  required_argument,       0, 't'},
+          {"particle_energy",  required_argument, 		0, 'e'},
+
+          {0, 0, 0, 0}
+        };
+      /* getopt_long stores the option index here. */
+      int option_index = 0;
+
+      cp = getopt_long (argc, argv, "p:t:e:", long_options, &option_index);
+
+      /* Detect the end of the options. */
+      if (cp == -1)
+        break;
+
+      switch (cp)
+        {
+        case 0:
+          /* If this option set a flag, do nothing else now. */
+          if (long_options[option_index].flag != 0)
+            break;
+          printf ("option %s", long_options[option_index].name);
+          if (optarg)
+            printf (" with arg %s", optarg);
+          printf ("\n");
+          break;
+
+
+        case 'p':
+          printf ("Setting gas pressure to `%s'\n", optarg);
+          gas_pressure = stod(optarg);
+          break;
+          
+        case 't':
+          printf ("Setting gas temperature to `%s'\n", optarg);
+          gas_temperature = stod(optarg);
+          break;
+          
+        case 'e':
+          printf ("Setting particle energy to `%s'\n", optarg);
+          particle_energy = stod(optarg);
+          break;
+
+
+        case '?':
+          /* getopt_long already printed an error message. */
+          break;
+
+        default:
+          abort ();
+        }
+    }
+
+
+  ///* Print any remaining command line arguments (not options). */
+  //if (optind < argc)
+    //{
+      //printf ("non-option ARGV-elements: ");
+      //while (optind < argc)
+        //printf ("%s ", argv[optind++]);
+      //putchar ('\n');
+    //}
+
+
 
   TApplication app("app", &argc, argv);
   plottingEngine.SetDefaultStyle();
   
   std::ofstream myfile;
-  myfile.open ("pressure.txt", std::ios::app	);
+  myfile.open ("data.txt", std::ios::app	);
   
     //
   
@@ -51,9 +126,9 @@ int main(int argc, char * argv[]){
 	   // Load the Magboltz gas file
 	  MediumMagboltz* gas = new MediumMagboltz();
 	  gas->SetComposition("ar", 93., "co2", 7.);
-	  double temperature = 273.15;
-	  gas->SetTemperature(temperature);
-	  gas->SetPressure(pressure);
+	  
+	  gas->SetTemperature(gas_temperature);
+	  gas->SetPressure(gas_pressure);
 	  gas->Initialise(true);	
 	  gas->LoadIonMobility("/opt/garfield/Data/IonMobility_Ar+_Ar.txt");
 
@@ -216,10 +291,10 @@ int main(int argc, char * argv[]){
 
 	  //Add ionizing particle using Heed
 	  // Here we add a negative pion with some momentum, units in [eV/c]
-	  const double energy = 170.e+09; // eV/c
+
 	  TrackHeed* track = new TrackHeed();
 	  track->SetParticle("muon");
-	  track->SetEnergy(energy);
+	  track->SetEnergy(particle_energy);
 	  track->SetSensor(sensor);
 	  track->EnableMagneticField();
 	  track->EnableElectricField();
@@ -442,8 +517,8 @@ int main(int argc, char * argv[]){
 	myfile 
 	
 		// Initial GAS
-		<< pressure << " , " 
-		<< temperature << " , "
+		<< gas_pressure << " , " 
+		<< gas_temperature << " , "
 		
 		// Initial Particle
 		
