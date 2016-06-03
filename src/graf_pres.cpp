@@ -34,9 +34,17 @@ int main(int argc, char * argv[])
 {
 
 	string output_file = "data.txt";
+	
 	double gas_pressure = 760.;
 	double gas_temperature = 273.15;
 	double particle_energy = 4.e9; // eV/c
+	
+	double top_voltage = -180.;
+	double mesh_voltage = 0.;
+	double bottom_voltage = 500; 
+	
+	double conc_ar = 93.;
+	double conc_co2 = 7.;
 	
   int cp;
 
@@ -53,13 +61,18 @@ int main(int argc, char * argv[])
           {"gas_pressure",     required_argument,       0, 'p'},
           {"gas_temperature",  required_argument,       0, 't'},
           {"particle_energy",  required_argument, 		0, 'e'},
-
+          {"top_voltage",      required_argument, 		0, 'x'},
+          {"mesh_voltage",     required_argument, 		0, 'y'},
+          {"bottom_voltage",   required_argument, 		0, 'z'},
+          {"conc_ar",          required_argument, 		0, 'a'},
+          {"conc_co2",         required_argument, 		0, 'c'},
+          
           {0, 0, 0, 0}
         };
       /* getopt_long stores the option index here. */
       int option_index = 0;
 
-      cp = getopt_long (argc, argv, "p:t:e:o:", long_options, &option_index);
+      cp = getopt_long (argc, argv, "p:t:e:o:x:y:z:a:c:", long_options, &option_index);
 
       /* Detect the end of the options. */
       if (cp == -1)
@@ -97,6 +110,33 @@ int main(int argc, char * argv[])
           printf ("Setting particle energy to `%s'\n", optarg);
           particle_energy = stod(optarg);
           break;
+          
+          
+          
+        case 'x':
+          printf ("Setting top voltage  to `%s'\n", optarg);
+          top_voltage = stod(optarg);
+          break;
+          
+        case 'y':
+          printf ("Setting mesh voltage  to `%s'\n", optarg);
+          mesh_voltage = stod(optarg);
+          break;
+          
+        case 'z':
+          printf ("Setting bottom voltage  to `%s'\n", optarg);
+          bottom_voltage = stod(optarg);
+          break;
+          
+        case 'a':
+          printf ("Setting Ar conc  to `%s'\n", optarg);
+          conc_ar = stod(optarg);
+          break;
+          
+        case 'c':
+          printf ("Setting CO2 conc  to `%s'\n", optarg);
+          conc_co2 = stod(optarg);
+          break;
 
 
         case '?':
@@ -129,7 +169,7 @@ int main(int argc, char * argv[])
  
 	   // Load the Magboltz gas file
 	  MediumMagboltz* gas = new MediumMagboltz();
-	  gas->SetComposition("ar", 93., "co2", 7.);
+	  gas->SetComposition("ar", conc_ar, "co2", conc_co2);
 	  
 	  gas->SetTemperature(gas_temperature);
 	  gas->SetPressure(gas_pressure);
@@ -156,16 +196,17 @@ int main(int argc, char * argv[])
 
 	  // Units given in [cm]
 	  const double Hdriftgap = 0.3; // Drift gap height
-	  const double Hampgap = 0.01; // Amplification gap height
+	  const double Hampgap = 0.0128; // Amplification gap height
 	  const double Htot = Hdriftgap + Hampgap; // Total height
 	  const double Pitch = 0.07; // Pitch
 	  const double Interpitch = 0.01; // Distance between two strips
 	  const double Wstrip = Pitch - Interpitch;
 
 	  // Electrode potentials
-	  const double Vdrift = -180.;
-	  const double Vamp = 0.;
-	  const double Vstrip = 500.;
+	  const double Vdrift = top_voltage;
+	  const double Vamp = mesh_voltage;
+	  const double Vstrip = bottom_voltage;
+	 
 
 	  // Magnetic field 
 	  const double MagX = 0.;
@@ -522,13 +563,21 @@ int main(int argc, char * argv[])
 
 
 	if (myfile.tellp() <= 10)
-		myfile << "# pressure, temperature, particle_energy, tot_ncls, tot_ecls, tot_n_e_aval, tot_n_i_aval, tnElastic, tnIonising, tnAttachment, tnInelastic, tnExcitation, tnSuperelastic, nr_interactions, QStrip[0,1,2,....]" << endl;
+		myfile << "# pressure, temperature, conc_Ar, conc_CO2, top_voltage, mesh_voltage, bottom_voltage, particle_energy, tot_ncls, tot_ecls, tot_n_e_aval, tot_n_i_aval, tnElastic, tnIonising, tnAttachment, tnInelastic, tnExcitation, tnSuperelastic, nr_interactions, QStrip(fC)[0,1,2,....]" << endl;
   
 	myfile 
 	
 		// Initial GAS
 		<< gas_pressure << " , " 
 		<< gas_temperature << " , "
+		<< conc_ar << " , "
+		<< conc_co2 << " , "
+		
+		// voltage
+		
+		<< top_voltage << " , "
+		<< mesh_voltage << " , "
+		<< bottom_voltage << " , "
 		
 		// Initial Particle
 		<< particle_energy << " , "
