@@ -33,10 +33,10 @@ typedef enum {
 int main(int argc, char * argv[])
 {
 
-
+	string output_file = "data.txt";
 	double gas_pressure = 760.;
 	double gas_temperature = 273.15;
-	double particle_energy = 170.e9; // eV/c
+	double particle_energy = 4.e9; // eV/c
 	
   int cp;
 
@@ -49,6 +49,7 @@ int main(int argc, char * argv[])
          // {"brief",   no_argument,       &verbose_flag, 0},
           /* These options don’t set a flag.
              We distinguish them by their indices. */
+          {"output_file",      required_argument,       0, 'o'},
           {"gas_pressure",     required_argument,       0, 'p'},
           {"gas_temperature",  required_argument,       0, 't'},
           {"particle_energy",  required_argument, 		0, 'e'},
@@ -76,6 +77,11 @@ int main(int argc, char * argv[])
           printf ("\n");
           break;
 
+
+        case 'o':
+          printf ("Setting output file  to `%s'\n", optarg);
+          output_file = string(optarg);
+          break;
 
         case 'p':
           printf ("Setting gas pressure to `%s'\n", optarg);
@@ -117,8 +123,6 @@ int main(int argc, char * argv[])
   TApplication app("app", &argc, argv);
   plottingEngine.SetDefaultStyle();
   
-  std::ofstream myfile;
-  myfile.open ("data.txt", std::ios::app	);
   
     //
   
@@ -326,7 +330,7 @@ int main(int argc, char * argv[])
 	  double track_dz = 0.0;
 
 
-	TypeMode mode = MODE_POS_RND_DIR_RND;
+	TypeMode mode = MODE_POS_RND_DIR_PERP;
 
 	switch (mode)
 	{
@@ -513,7 +517,13 @@ int main(int argc, char * argv[])
 
 	  
 
-	
+	std::ofstream myfile;
+	myfile.open (output_file, std::ios::app	);
+
+
+	if (myfile.tellp() <= 10)
+		myfile << "# pressure, temperature, particle_energy, tot_ncls, tot_ecls, tot_n_e_aval, tot_n_i_aval, tnElastic, tnIonising, tnAttachment, tnInelastic, tnExcitation, tnSuperelastic, nr_interactions, QStrip[0,1,2,....]" << endl;
+  
 	myfile 
 	
 		// Initial GAS
@@ -521,7 +531,7 @@ int main(int argc, char * argv[])
 		<< gas_temperature << " , "
 		
 		// Initial Particle
-		
+		<< particle_energy << " , "
 		
 		// Final state
 		
