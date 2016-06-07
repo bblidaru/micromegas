@@ -325,12 +325,12 @@ int main(int argc, char * argv[])
 
 	//For simulating the electron avalanche we use the class AvalancheMicroscopic
 	AvalancheMicroscopic* aval = new AvalancheMicroscopic(); 
-	const int aval_size = 0.1;
+	//const int aval_size = 0.1;
 	aval->SetSensor(sensor); 
 	// Switch on signal calculation. 
 	aval->EnableSignalCalculation(); 
 	aval->SetTimeWindow(tMin,tMax ); 
-	aval->EnableAvalancheSizeLimit(aval_size);
+	//aval->EnableAvalancheSizeLimit(aval_size);
 	aval->EnablePlotting(viewdrift);
 	aval->EnableDriftLines();
 	aval->EnableMagneticField();
