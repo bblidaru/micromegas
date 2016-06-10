@@ -36,7 +36,8 @@ int main(int argc, char * argv[])
 
 	string output_file = "data.txt";
 
-
+	srand (time(NULL));
+	
 	double gas_pressure = 760.;
 	double gas_temperature = 273.15;
 	double particle_energy = 4.e9; // eV/c
