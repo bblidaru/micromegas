@@ -35,9 +35,7 @@ int main(int argc, char * argv[])
 {
 
 	string output_file = "data.txt";
-	
-	typedef std::numeric_limits< double > dbl;
-	cout.precision(dbl::max_digits10);
+
 
 	double gas_pressure = 760.;
 	double gas_temperature = 273.15;
@@ -598,12 +596,10 @@ int main(int argc, char * argv[])
 
 
 
-
-
-
+	typedef std::numeric_limits< double > dbl;
 
 	std::ofstream myfile;
-	myfile.open (output_file, std::ios::app	);
+	myfile.open (output_file, std::ios::app	);	
 
 
 	if (myfile.tellp() <= 10)
@@ -619,6 +615,8 @@ int main(int argc, char * argv[])
 		 
 		 myfile << endl;
 	}
+	
+	myfile.precision(dbl::max_digits10);
 
 	myfile 
 		// Initial GAS
