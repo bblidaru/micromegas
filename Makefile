@@ -10,7 +10,7 @@ LIBDIR = $(GARFIELD_HOME)/Library
 # Compiler flags
 CFLAGS = -Wall -Wextra -Wno-long-long -Wno-unused -Wno-unused-parameter \
         `root-config --cflags` -std=c++11 \
-        -O3 -fno-common -c \
+        -O1 -fno-common -c \
         -I$(INCDIR) -I$(HEEDDIR) 
 
 # Debug flags
