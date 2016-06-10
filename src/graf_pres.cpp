@@ -2,6 +2,7 @@
 #include <fstream>
 #include <cmath>
 #include <getopt.h>
+#include <limits>
 
 #include <TApplication.h>
 #include <TCanvas.h>
@@ -34,6 +35,9 @@ int main(int argc, char * argv[])
 {
 
 	string output_file = "data.txt";
+	
+	typedef std::numeric_limits< double > dbl;
+	cout.precision(dbl::max_digits10);
 
 	double gas_pressure = 760.;
 	double gas_temperature = 273.15;
