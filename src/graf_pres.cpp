@@ -455,7 +455,11 @@ int main(int argc, char * argv[])
 
 	int tot_nElastic=0, tot_nIonising=0, tot_nAttachment=0, tot_nInelastic=0, tot_nExcitation=0, tot_nSuperelastic=0;
 
-	track->DisableDeltaElectronTransport();
+	//track->DisableDeltaElectronTransport(); // If electron transport is disabled, the number of electrons 
+			// returned by GetCluster is the number of “primary” ionisation
+			// electrons, i. e. the photo-electrons and Auger electrons. 
+			// Their kinetic energies and locations are accessible through the
+			// function GetElectron
 	
 	do
 	{
@@ -526,14 +530,34 @@ int main(int argc, char * argv[])
 
 			for(int i = 0; i < nTimeBins; i++)
 			{
-				double value = (sensor->GetElectronSignal(name, i));
-				QstripsTot[j] += value;
-				QtimeTot[i] += value;
+				double value = sensor->GetElectronSignal(name, i);
+				
+				if (std::isnan(value) == false )
+				{
+					QstripsTot[j] += value;
+					QtimeTot[i] += value;
+				}
 			}    
 		}
 
 
 
+		//// Sanity check
+		//double sum_q_time = 0;
+		//double sum_q_strip = 0;
+		
+		//for (int j=0; j<n_strips_x; j++)
+			//sum_q_strip += QstripsTot[j];
+			
+		//for(int i = 0; i < nTimeBins; i++)
+			//sum_q_time  += QtimeTot[i];
+			
+		//if (sum_q_strip != sum_q_time)
+		//{
+			//cout << "WARNING: sum_q_strip != sum_q_time" << endl;
+			//cout << "sum_q_strip: " << sum_q_strip << endl;
+			//cout << "sum_q_time: "  << sum_q_time  << endl;
+		//}
 
 		// Now calculate the reconstructed pion position in the Micromegas
 		// using the weighted average of the Strip signals
