@@ -164,8 +164,8 @@ int main(int argc, char * argv[])
 
 
 
-	TApplication app("app", &argc, argv);
-	plottingEngine.SetDefaultStyle();
+	//TApplication app("app", &argc, argv);
+	//plottingEngine.SetDefaultStyle();
 
 
 	//
@@ -317,15 +317,15 @@ int main(int argc, char * argv[])
 	for (int i = 0; i < nTimeBins; i++)
 		Ttime[i]= i * tStep;
 
-	// This canvas will be used to display the drift lines and the field
-	TCanvas * c = new TCanvas("c", "c", 10, 10, 1000, 700);
-	c->Divide(2,1);
-	// Construct object to visualise drift lines
-	ViewDrift* viewdrift = new ViewDrift();
-	viewdrift->SetArea(-0.2, 0.0, -0.1, 0.2, Htot,0.1 );
-	viewdrift->SetClusterMarkerSize(0.1);
-	viewdrift->SetCollisionMarkerSize(0.5);
-	viewdrift->SetCanvas((TCanvas*)c->cd(1));
+	//// This canvas will be used to display the drift lines and the field
+	//TCanvas * c = new TCanvas("c", "c", 10, 10, 1000, 700);
+	//c->Divide(2,1);
+	//// Construct object to visualise drift lines
+	//ViewDrift* viewdrift = new ViewDrift();
+	//viewdrift->SetArea(-0.2, 0.0, -0.1, 0.2, Htot,0.1 );
+	//viewdrift->SetClusterMarkerSize(0.1);
+	//viewdrift->SetCollisionMarkerSize(0.5);
+	//viewdrift->SetCanvas((TCanvas*)c->cd(1));
 
 	//For simulating the electron avalanche we use the class AvalancheMicroscopic
 	AvalancheMicroscopic* aval = new AvalancheMicroscopic(); 
@@ -335,7 +335,7 @@ int main(int argc, char * argv[])
 	aval->EnableSignalCalculation(); 
 	aval->SetTimeWindow(tMin,tMax ); 
 	//aval->EnableAvalancheSizeLimit(aval_size);
-	aval->EnablePlotting(viewdrift);
+	//aval->EnablePlotting(viewdrift);
 	aval->EnableDriftLines();
 	aval->EnableMagneticField();
 	// Additional optional switches
@@ -352,7 +352,7 @@ int main(int argc, char * argv[])
 	track->SetSensor(sensor);
 	track->EnableMagneticField();
 	track->EnableElectricField();
-	track->EnablePlotting(viewdrift);
+	//track->EnablePlotting(viewdrift);
 
 	// Cluster info
 	double xcls, ycls, zcls, tcls, e, extra;
