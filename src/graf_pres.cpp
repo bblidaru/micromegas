@@ -250,6 +250,8 @@ int main(int argc, char * argv[])
 	cmpAmp->AddPlaneY(0.0, Vstrip, "StripPlane");
 
 
+	
+	
 	//Next we construct the Strips for readout of te signal, also with labels
 	double Xoffset = -w;
 
@@ -277,31 +279,20 @@ int main(int argc, char * argv[])
 	}
 
 
-	//Xstrip1 = Xoffset + Wstrip/2.0;
-	//cmpAmp->AddStripOnPlaneY('z', 0.0, Xoffset, Xoffset + Wstrip, "Strip1");
-	//Xoffset += (Wstrip + Interpitch); 
-	//Xstrip2 = Xoffset + Wstrip/2.0;
-	//cmpAmp->AddStripOnPlaneY('z', 0.0, Xoffset, Xoffset + Wstrip, "Strip2");
-	//Xoffset += (Wstrip + Interpitch); 
-	//Xstrip3 = Xoffset + Wstrip/2.0;
-	//cmpAmp->AddStripOnPlaneY('z', 0.0, Xoffset, Xoffset + Wstrip, "Strip3");
 
-	//We want to calculate the signal induced on the strip. 
-	//We have to tell this to the ComponentAnalyticalField
-	//cmpAmp->AddReadout("Strip1");
-	//cmpAmp->AddReadout("Strip2");
-	//cmpAmp->AddReadout("Strip3");
+	// Ion strip
+
+	cmpAmp->AddStripOnPlaneY('z', Htot, -w/2, w/2, "StripIon");
+	cmpAmp->AddReadout("StripIon");
+	sensor->AddElectrode(cmpAmp, "StripIon"); 
+	
+
+
 
 	// Set constant magnetic field in [Tesla]
 	cmpDrift->SetMagneticField(MagX, MagY, MagZ);
 
 
-
-	// Request signal calculation for the electrode named with labels above, 
-	// using the weighting field provided by the Component object cmp. 
-	//sensor->AddElectrode(cmpAmp, "Strip1"); 
-	//sensor->AddElectrode(cmpAmp, "Strip2"); 
-	//sensor->AddElectrode(cmpAmp, "Strip3"); 
 
 	// Set Time window for signal integration, units in [ns]
 	double tMin = 0.; 
@@ -446,12 +437,15 @@ int main(int argc, char * argv[])
 	
 	// To accumulate the electron signal for all strip for each time separately
 	double QtimeTot[nTimeBins];
-	
+	double QtimeIonTot[nTimeBins];
 	for (int i = 0; i < nTimeBins; i++)
 	{
 		QtimeTot[i] = 0;
+		QtimeIonTot[i] = 0;
 	}
 
+
+	
 
 
 	int tot_nElastic=0, tot_nIonising=0, tot_nAttachment=0, tot_nInelastic=0, tot_nExcitation=0, tot_nSuperelastic=0;
@@ -541,8 +535,12 @@ int main(int argc, char * argv[])
 			}    
 		}
 
-
-
+		
+		for(int i = 0; i < nTimeBins; i++)
+		{
+			QtimeIonTot[i] += sensor->GetIonSignal("StripIon", i);
+		}
+		
 		//// Sanity check
 		//double sum_q_time = 0;
 		//double sum_q_strip = 0;
@@ -631,17 +629,22 @@ int main(int argc, char * argv[])
 	{
 		myfile << "# pressure, temperature, conc_Ar, conc_CO2, top_voltage, mesh_voltage, bottom_voltage, particle_energy, tot_ncls, tot_ecls, tot_n_e_aval, tot_n_i_aval, tnElastic, tnIonising, tnAttachment, tnInelastic, tnExcitation, tnSuperelastic, nr_interactions,";
 		
+		
 		for (int j=0; j < n_strips_x; j++)
 			myfile << "QStrip" << j << " (x:" << Xstrips[j] << "),";
 		 
 		for (int i=0; i < nTimeBins; i++)
 			myfile << "QTime" << i << " (t:" << Ttime[i] << "),";
-		 
+		
+		for (int i=0; i < nTimeBins; i++)
+			myfile << "QIon" << i << " (t:" << Ttime[i] << "),";
 		 
 		 myfile << endl;
 	}
 	
 	myfile.precision(dbl::max_digits10);
+	
+
 
 	myfile 
 		// Initial GAS
@@ -673,12 +676,14 @@ int main(int argc, char * argv[])
 		<< tot_nSuperelastic <<  " , "
 		<< q << " , ";
 
-
 	for (int j=0; j<n_strips_x; j++)
 		myfile << QstripsTot[j] << " , " ;
 
 	for (int i=0; i < nTimeBins; i++)
 		myfile << QtimeTot[i] << " , " ;
+		
+	for (int i=0; i < nTimeBins; i++)
+		myfile << QtimeIonTot[i] << " , " ;
 
 	myfile << std::endl;
 
